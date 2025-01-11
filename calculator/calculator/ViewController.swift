@@ -13,10 +13,16 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var equationLabel: UILabel!
     var equation = ""
+    var accumulateRes = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         clearScreen()
+    }
+    func accumulate(){
+        equation           = accumulateRes
+        equationLabel.text = accumulateRes
+        resLabel.text      = ""
     }
     func clearScreen(){
         equation           = ""
@@ -26,9 +32,13 @@ class ViewController: UIViewController {
     @IBAction func clearAll(_ sender: Any) {
         clearScreen()
     }
-    func addToEquation( _ value: String){
+    func addToEquation( _ value: Character){
         if resLabel.text != "" {
-            clearScreen()
+            if isChar(value){
+                accumulate()
+            }else{
+                clearScreen()
+            }
         }
         equation.append(value)
         equationLabel.text = equation
@@ -110,6 +120,7 @@ class ViewController: UIViewController {
         let resStr = formatResult(result)
         if IsValid(resStr) {
             resLabel.text = resStr
+            accumulateRes = "\(resStr)"
         }else {
             let alert = UIAlertController(title: "Invalid Input", message: "", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default) { (_) in
